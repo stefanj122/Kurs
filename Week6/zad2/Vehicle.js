@@ -16,6 +16,6 @@ export class Vehicle {
     }
 
     status(){
-        return (this.currentSpeed / 2 > this.speedLimit) ? "You are going too fast, be careful!" : "Thanks for driving safely!";
+        return (this.currentSpeed > this.speedLimit / 2) ? "You are going too fast, be careful!" : "Thanks for driving safely!";
     }
 }
