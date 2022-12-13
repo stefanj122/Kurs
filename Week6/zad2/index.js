@@ -1,7 +1,7 @@
 import {Car} from "./Car.js";
 import { Vehicle } from "./Vehicle.js";
 
-const car1 = new Car('Golf 2', 100, 120, 55, 35)
+const car1 = new Car('Golf 2', 100, 120, 55)
 
 const car = new Vehicle('Golf',4,150,120);
 car.accelerate();
