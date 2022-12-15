@@ -8,6 +8,7 @@ async function axiosTest() {
         headers: { "Accept-Encoding": "gzip,deflate,compress" },
       }
     );
+    fs.rmSync("posts.txt");
     response.data.forEach((element) => {
       fs.appendFileSync("posts.txt", JSON.stringify(element) + "\n");
     });

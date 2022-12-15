@@ -17,39 +17,40 @@
 // );
 // console.log("I'm still the number one!");
 import fs from "fs";
-// const promise2 = new Promise(function (resolve, reject) {
-//   try {
-//     const file = fs.readFileSync("text.txt");
-//     if (file) {
-//       resolve(file.toString());
-//     }
-//   } catch (e) {
-//     reject("File not Found");
-//   }
-// });
 
-// promise2.then(
-//   function (value) {
-//     console.log(value);
-//   },
-//   function (error) {
-//     console.log(error);
-//   }
-// );
-async function readTestFile() {
-  const promise2 = new Promise(function (resolve, reject) {
-    try {
-      const file = fs.readFileSync("text.txt");
-      if (file) {
-        resolve(file.toString());
-      }
-    } catch (e) {
-      reject("File not Found");
+const promise2 = new Promise(function (resolve, reject) {
+  try {
+    const file = fs.readFileSync("text1.txt");
+    if (file) {
+      resolve(file.toString());
     }
-  });
+  } catch (e) {
+    reject("File not Found");
+  }
+});
 
-  const res = await promise2;
-  console.log(res);
-}
+promise2.then(
+  function (value) {
+    console.log(value);
+  },
+  function (error) {
+    console.log(error);
+  }
+);
+// async function readTestFile() {
+//   const promise2 = new Promise(function (resolve, reject) {
+//     try {
+//       const file = fs.readFileSync("text.txt");
+//       if (file) {
+//         resolve(file.toString());
+//       }
+//     } catch (e) {
+//       reject("File not Found");
+//     }
+//   });
 
-readTestFile();
+//   const res = await promise2;
+//   console.log(res);
+// }
+
+// readTestFile();
