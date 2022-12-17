@@ -1,7 +1,7 @@
 async function startJob(nuberOfTasks) {
   return new Promise(function (resolve, reject) {
     try {
-      if (!isNaN(nuberOfTasks)) {
+      if (numberOfTasks > 0) {
         setTimeout(() => {
           resolve(`[${nuberOfTasks}] tasks finished.`);
         }, 2000);
@@ -13,7 +13,7 @@ async function startJob(nuberOfTasks) {
     }
   });
 }
-startJob(-1).then(
+startJob(1).then(
   function (res) {
     console.log(res);
   },
@@ -21,6 +21,7 @@ startJob(-1).then(
     console.log(err);
   }
 );
+
 
 // const sad = await startJob(-1);
 // console.log(sad);
