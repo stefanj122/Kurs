@@ -23,7 +23,7 @@ const mailOptions = {
       path: "Weather.csv",
     },
     {
-      filename: "zadatak5.txt",
+      filename: "zadatak5123.txt",
       path: "zadatak5.txt",
     },
   ],
