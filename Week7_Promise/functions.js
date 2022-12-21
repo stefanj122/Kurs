@@ -4,8 +4,8 @@ import fs from "fs";
 export function coldestAvgDay(arr, time) {
   const avgDays = [];
   arr.forEach((element) => {
-    const avg = element.reduce((acc, element) => {
-      return acc + Number(element);
+    const avg = element.reduce((acc, element, index, arr) => {
+      return acc + Number(element) / arr.length;
     }, 0);
     avgDays.push(avg.toFixed(2));
   });
@@ -16,13 +16,14 @@ export function coldestAvgDay(arr, time) {
     }
   });
   const day = time[avgDays.indexOf(min) * 24];
-  return `The coldest day by average temperature is ${day}.`;
+  return `The coldest day by average temperature is ${day}, with ${min} temperature.`;
 }
 
 export function coldestDay(arr, time) {
   const days = [];
+  let count = 0;
   arr.forEach((element) => {
-    let count = 0;
+    count = 0;
     element.map((element) => {
       if (element < 0) {
         count++;
@@ -30,22 +31,25 @@ export function coldestDay(arr, time) {
     });
     days.push(count);
   });
-  let min = days[0];
+  let hours = days[0];
   days.map((element) => {
-    if (min < element) {
-      min = element;
+    if (hours < element) {
+      hours = element;
     }
   });
-  const day = time[days.indexOf(min) * 24];
-  return `The coldest day by total hours under zero is ${day}.`;
+  const day = time[days.indexOf(hours) * 24];
+  return `The coldest day by total hours under zero is ${day}, with ${hours} hours.`;
 }
 
 export function coldestDayByCount(arr, time) {
   const days = [];
+  let i = 0;
+  let count = 0;
+
   arr.map((element, index) => {
     days.push(0);
-    let count = 0;
-    let i = index;
+    count = 0;
+    i = index;
     element.map((element, index, arr) => {
       if (element < 0) {
         count++;
@@ -62,14 +66,14 @@ export function coldestDayByCount(arr, time) {
       days.push(count);
     }
   });
-  let min = days[0];
+  let hours = days[0];
   days.map((element) => {
-    if (min < element) {
-      min = element;
+    if (hours < element) {
+      hours = element;
     }
   });
-  const day = time[days.indexOf(min) * 24];
-  return `The coldest day by continued hours under zero is ${day}.`;
+  const day = time[days.indexOf(hours) * 24];
+  return `The coldest day by continued hours under zero is ${day}, with ${hours} countinued hours.`;
 }
 
 export async function getWeather(url) {
@@ -114,6 +118,7 @@ export function sortDaily(time, temperature) {
       daily[daily.length - 1].push(temperature[i]);
     } else if (i !== temperature.length - 1) {
       daily.push([]);
+      daily[daily.length - 1].push(temperature[i]);
     }
   }
   return daily;

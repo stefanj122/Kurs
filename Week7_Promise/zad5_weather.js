@@ -22,15 +22,15 @@ async function compareWeather() {
   const current = await getWeather(
     `https://api.open-meteo.com/v1/forecast?latitude=44.76&longitude=19.22&hourly=temperature_2m,snowfall&timezone=Europe%2FBerlin&start_date=${format1}&end_date=${format2}`
   );
-  for (let i = 0; i < weather.length - 1; i++) {
+  for (let i = 0; i < weather.length; i++) {
     if (weather[i] !== current[i]) {
       fs.writeFileSync("Weather.csv", current);
       console.log("Weather.csv are changed.");
       break;
-    } else if (i === weather.length - 2) {
+    } else if (i === weather.length - 1) {
       console.log("Nothing changes.");
     }
   }
 }
-setInterval(() => compareWeather(), 3_600_000);
+setInterval(() => compareWeather(), 3_600);
 // compareWeather();
