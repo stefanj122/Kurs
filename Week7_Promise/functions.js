@@ -3,7 +3,7 @@ import fs from "fs";
 
 export function coldestAvgDay(arr, time) {
   const avgDays = [];
-  arr.forEach((element) => {
+  arr.map((element) => {
     const avg = element.reduce((acc, element, index, arr) => {
       return acc + Number(element) / arr.length;
     }, 0);
@@ -11,18 +11,21 @@ export function coldestAvgDay(arr, time) {
   });
   let min = avgDays[0];
   avgDays.map((element) => {
-    if (min > element) {
+    if (Number(min) > element) {
       min = element;
     }
   });
-  const day = time[avgDays.indexOf(min) * 24];
+
+  const day = time.filter((el, i) => time.indexOf(el) === i)[
+    avgDays.indexOf(min)
+  ];
   return `The coldest day by average temperature is ${day}, with ${min} temperature.`;
 }
 
 export function coldestDay(arr, time) {
   const days = [];
   let count = 0;
-  arr.forEach((element) => {
+  arr.map((element) => {
     count = 0;
     element.map((element) => {
       if (element < 0) {
@@ -37,8 +40,14 @@ export function coldestDay(arr, time) {
       hours = element;
     }
   });
-  const day = time[days.indexOf(hours) * 24];
-  return `The coldest day by total hours under zero is ${day}, with ${hours} hours.`;
+  const day = time.filter((element, i) => time.indexOf(element) === i)[
+    days.indexOf(hours)
+  ];
+  if (hours != 0) {
+    return `The coldest day by total hours under zero is ${day}, with ${hours} hours.`;
+  } else {
+    return "In the next five days there is not temperature below zero.";
+  }
 }
 
 export function coldestDayByCount(arr, time) {
@@ -72,28 +81,13 @@ export function coldestDayByCount(arr, time) {
       hours = element;
     }
   });
-  const day = time[days.indexOf(hours) * 24];
-  return `The coldest day by continued hours under zero is ${day}, with ${hours} countinued hours.`;
-}
-
-export async function getWeather(url) {
-  try {
-    const response = await axios.get(url, {
-      headers: { "Accept-Encoding": "gzip,deflate,compress" },
-    });
-    let str = "";
-    const time = response.data.hourly.time;
-    const temperature = response.data.hourly.temperature_2m;
-    const snowfall = response.data.hourly.snowfall;
-    str += "TIME;APPARENT TEMPERATURE;SNOWFALL\n";
-    time.forEach((element, index) => {
-      str += `${element};${temperature[index]};${
-        snowfall[index] === 0 ? false : snowfall[index]
-      }\n`;
-    });
-    return str;
-  } catch (e) {
-    console.log(e);
+  const day = time.filter((element, i) => time.indexOf(element) === i)[
+    days.indexOf(hours)
+  ];
+  if (hours != 0) {
+    return `The coldest day by continued hours under zero is ${day}, with ${hours} countinued hours.`;
+  } else {
+    return "In the next five days there is not temperature below zero.";
   }
 }
 

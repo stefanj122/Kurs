@@ -14,12 +14,8 @@ def getWeather(link):
     temperature = data["hourly"]["temperature_2m"]
     snowfall = data["hourly"]["snowfall"]
     string = "TIME;TEMPERATURE;SNOWFALL\n"
-    for i, x,y in zip(time,temperature,snowfall):
-        string += (
-            i + ";" + str(x) + ";" + "false;\n"
-            if y == 0
-            else str(y) + ";\n"
-        )
+    for i, x, y in zip(time, temperature, snowfall):
+        string += i + ";" + str(x) + ";" + "false;\n" if y == 0 else str(y) + ";\n"
     return string
 
 

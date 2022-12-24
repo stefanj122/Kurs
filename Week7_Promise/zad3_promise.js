@@ -1,9 +1,9 @@
-async function startJob(nuberOfTasks) {
+function startJob(numberOfTasks) {
   return new Promise(function (resolve, reject) {
     try {
-      if (numberOfTasks > 0) {
+      if (!isNaN(+numberOfTasks) && numberOfTasks > 0) {
         setTimeout(() => {
-          resolve(`[${nuberOfTasks}] tasks finished.`);
+          resolve(`[${numberOfTasks}] tasks finished.`);
         }, 2000);
       } else {
         throw new Error("Invalid inpput!");
@@ -21,7 +21,6 @@ startJob(1).then(
     console.log(err);
   }
 );
-
 
 // const sad = await startJob(-1);
 // console.log(sad);

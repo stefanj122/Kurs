@@ -4,7 +4,6 @@ import {
   coldestAvgDay,
   coldestDay,
   coldestDayByCount,
-  getWeather,
   readFromCsv,
   sortDaily,
 } from "./functions.js";
@@ -13,9 +12,7 @@ const { time, temperature, snowfall } = readFromCsv();
 const daily = sortDaily(time, temperature);
 try {
   fs.rmSync("zadatak5.txt");
-} catch (e) {
-
-}
+} catch (e) {}
 
 fs.appendFileSync("zadatak5.txt", coldestAvgDay(daily, time) + "\n");
 fs.appendFileSync("zadatak5.txt", coldestDay(daily, time) + "\n");

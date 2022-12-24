@@ -44,5 +44,4 @@ while(true){
     hasWeatherChanged();
         sleep(5);
 }
-
 ?>
