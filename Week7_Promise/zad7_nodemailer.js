@@ -1,12 +1,12 @@
 import nodemailer from "nodemailer";
-import Transport from "nodemailer-sendinblue-transport";
+// import Transport from "nodemailer-sendinblue-transport";
 
 let transport = nodemailer.createTransport({
   host: "smtp-relay.sendinblue.com",
   port: 587,
   auth: {
     user: "stefan.jeftic122@gmail.com",
-    pass: "xsmtpsib-f330f922361a0a6f0f954fe1a974fd7d6f5a00f50aacbda0de0717444b8ec518-nkLF6f8HpIRDCbGg",
+    pass: "xsmtpsib-f330f922361a0a6f0f954fe1a974fd7d6f5a00f50aacbda0de0717444b8ec518-ZRnq2NctfvO8sXj0",
   },
 });
 const mailOptions = {
