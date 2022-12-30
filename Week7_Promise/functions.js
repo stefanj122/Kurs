@@ -16,7 +16,7 @@ export function coldestAvgDay(arr, time) {
     }
   });
 
-  const day = time.filter((el, i) => time.indexOf(el) === i)[
+  const day = time.filter((element, index) => time.indexOf(element) === index)[
     avgDays.indexOf(min)
   ];
   return `The coldest day by average temperature is ${day}, with ${min} temperature.`;
@@ -25,7 +25,7 @@ export function coldestAvgDay(arr, time) {
 export function coldestDay(arr, time) {
   const days = [];
   let count = 0;
-  arr.map((element) => {
+  arr.forEach((element) => {
     count = 0;
     element.map((element) => {
       if (element < 0) {

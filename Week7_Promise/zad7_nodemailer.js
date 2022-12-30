@@ -6,12 +6,12 @@ let transport = nodemailer.createTransport({
   port: 587,
   auth: {
     user: "stefan.jeftic122@gmail.com",
-    pass: "xsmtpsib-f330f922361a0a6f0f954fe1a974fd7d6f5a00f50aacbda0de0717444b8ec518-ZRnq2NctfvO8sXj0",
+    pass: "xsmtpsib-f330f922361a0a6f0f954fe1a974fd7d6f5a00f50aacbda0de0717444b8ec518-RrbGIKJ8F50N7pZW",
   },
 });
 const mailOptions = {
   from: "stefan.jeftic122@gmail.com", // Sender address
-  to: "dragana.josipovic95@gmail.com", // List of recipients
+  to: "stifler.cspro@gmail.com", // List of recipients
   subject: "Node Mailer", // Subject line
   text: "Saljem zadatak 5.", // Plain text body
   attachments: [
