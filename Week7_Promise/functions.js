@@ -19,7 +19,9 @@ export function coldestAvgDay(arr, time) {
   const day = time.filter((element, index) => time.indexOf(element) === index)[
     avgDays.indexOf(min)
   ];
-  return `The coldest day by average temperature is ${day}, with ${min} temperature.`;
+  return `The coldest day by average temperature is ${
+    day.split("T")[0]
+  }, with ${min} temperature.`;
 }
 
 export function coldestDay(arr, time) {
@@ -44,7 +46,9 @@ export function coldestDay(arr, time) {
     days.indexOf(hours)
   ];
   if (hours != 0) {
-    return `The coldest day by total hours under zero is ${day}, with ${hours} hours.`;
+    return `The coldest day by total hours under zero is ${
+      day.split("T")[0]
+    }, with ${hours} hours.`;
   } else {
     return "In the next five days there is not temperature below zero.";
   }
@@ -85,7 +89,9 @@ export function coldestDayByCount(arr, time) {
     days.indexOf(hours)
   ];
   if (hours != 0) {
-    return `The coldest day by continued hours under zero is ${day}, with ${hours} countinued hours.`;
+    return `The coldest day by continued hours under zero is ${
+      day.split("T")[0]
+    }, with ${hours} countinued hours.`;
   } else {
     return "In the next five days there is not temperature below zero.";
   }
@@ -97,15 +103,18 @@ export function readFromCsv() {
   const time = [];
   const temperature = [];
   const snowfall = [];
-  for (let i = 3; i < arr.length; i += 3) {
-    time.push(arr[i].split("T")[0]);
+  for (let i = 3; i < arr.length - 1; i += 3) {
+    time.push(arr[i]);
     temperature.push(arr[i + 1]);
     snowfall.push(arr[i + 2]);
   }
   return { time, temperature, snowfall };
 }
 
-export function sortDaily(time, temperature) {
+export function sortDaily(timedate, temperature) {
+  const time = timedate.map((e) => {
+    return e.split("T")[0];
+  });
   const daily = [[]];
   for (let i = 0; i < temperature.length; i++) {
     if (time[i] === time[i - 1] || i === 0) {
