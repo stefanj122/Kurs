@@ -3,6 +3,9 @@ import fs from "fs";
 
 export function coldestAvgDay(arr, time) {
   const avgDays = [];
+  const date = time.map((e) => {
+    return e.split("T")[0];
+  });
   arr.map((element) => {
     const avg = element.reduce((acc, element, index, arr) => {
       return acc + Number(element) / arr.length;
@@ -16,16 +19,17 @@ export function coldestAvgDay(arr, time) {
     }
   });
 
-  const day = time.filter((element, index) => time.indexOf(element) === index)[
+  const day = date.filter((element, index) => date.indexOf(element) === index)[
     avgDays.indexOf(min)
   ];
-  return `The coldest day by average temperature is ${
-    day.split("T")[0]
-  }, with ${min} temperature.`;
+  return `The coldest day by average temperature is ${day}, with ${min} temperature.`;
 }
 
 export function coldestDay(arr, time) {
   const days = [];
+  const date = time.map((e) => {
+    return e.split("T")[0];
+  });
   let count = 0;
   arr.forEach((element) => {
     count = 0;
@@ -42,13 +46,11 @@ export function coldestDay(arr, time) {
       hours = element;
     }
   });
-  const day = time.filter((element, i) => time.indexOf(element) === i)[
+  const day = date.filter((element, i) => date.indexOf(element) === i)[
     days.indexOf(hours)
   ];
   if (hours != 0) {
-    return `The coldest day by total hours under zero is ${
-      day.split("T")[0]
-    }, with ${hours} hours.`;
+    return `The coldest day by total hours under zero is ${day}, with ${hours} hours.`;
   } else {
     return "In the next five days there is not temperature below zero.";
   }
@@ -58,6 +60,9 @@ export function coldestDayByCount(arr, time) {
   const days = [];
   let i = 0;
   let count = 0;
+  const date = time.map((e) => {
+    return e.split("T")[0];
+  });
 
   arr.map((element, index) => {
     days.push(0);
@@ -85,13 +90,11 @@ export function coldestDayByCount(arr, time) {
       hours = element;
     }
   });
-  const day = time.filter((element, i) => time.indexOf(element) === i)[
+  const day = date.filter((element, i) => date.indexOf(element) === i)[
     days.indexOf(hours)
   ];
   if (hours != 0) {
-    return `The coldest day by continued hours under zero is ${
-      day.split("T")[0]
-    }, with ${hours} countinued hours.`;
+    return `The coldest day by continued hours under zero is ${day}, with ${hours} countinued hours.`;
   } else {
     return "In the next five days there is not temperature below zero.";
   }

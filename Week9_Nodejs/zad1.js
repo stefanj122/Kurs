@@ -39,9 +39,19 @@ function insertIntoTable() {
 http
   .createServer((req, res) => {
     if (req.url === "/weather") {
-      res.writeHead(200, { "Content-Type": "application/json" });
+      res.writeHead(200, { "Content-Type": "text/html" });
       conn.query("SELECT * FROM weather;", (err, result, fields) => {
-        res.end(JSON.stringify(result));
+        let str = `<style>td,th{text-align: center;}</style><table border=1px border-collapse= collapse
+           width=50%><tr><td width=60%>TIME</td><td width=20%>TEMPERATURE</td><td width=20%>SNOWFALL</td></tr>`;
+
+        if (result) {
+          result.forEach((row) => {
+            str += `<tr><td>${row.time}</td><td>${row.temperature}</td><td>${row.snowfall}</td></tr>`;
+          });
+          str += "</table>";
+          res.write(str);
+        }
+        res.end();
       });
     } else if (req.url === "/drop") {
       res.writeHead(200, { "Content-Type": "text/html" });
@@ -55,10 +65,11 @@ http
     } else if (req.url === "/create") {
       res.writeHead(200, { "Content-Type": "text/html" });
       conn.query(
-        "CREATE TABLE IF NOT EXISTS weather (id int(11) not null auto_increment primary key,time datetime default null,temperature float(15) null,snowfall varchar(20) null);"
+        "CREATE TABLE IF NOT EXISTS weather (id int(11) not null auto_increment primary key,time datetime default null,temperature float(15) null,snowfall varchar(20) null);",
+        () => {
+          res.end("<h1>Table created</h1>");
+        }
       );
-
-      res.end("<h1>Table created</h1>");
     } else if (req.url === "/avg") {
       res.writeHead(200, { "Content-Type": "text/html" });
       res.end(
@@ -79,10 +90,12 @@ http
         if (result) {
           conn.query("DROP TABLE IF EXISTS weather");
           conn.query(
-            "CREATE TABLE IF NOT EXISTS weather (id int(11) not null auto_increment primary key,time datetime default null,temperature float(15) null,snowfall varchar(20) null);"
+            "CREATE TABLE IF NOT EXISTS weather (id int(11) not null auto_increment primary key,time datetime default null,temperature float(15) null,snowfall varchar(20) null);",
+            () => {
+              insertIntoTable();
+              res.end("<h1>Table updated</h1>");
+            }
           );
-          insertIntoTable();
-          res.end("<h1>Table updated</h1>");
         } else {
           res.end("<h1>Table not updated</h1>");
         }
@@ -108,7 +121,7 @@ http
               
               .button1 {background-color: #4CAF50;} /* Green */
               .button2 {background-color: #008CBA;} /* Blue */
-              .button3 {background-color: #CC3255;} /* Red */
+              .button3 {background-color: #CC3215;} /* Red */
             </style>
           </head>
           <body>

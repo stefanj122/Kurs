@@ -60,3 +60,12 @@ CREATE TABLE
     );
 
 DROP TABLE weather;
+
+SELECT DATE(time),AVG(temperature) from weather GROUP BY DAY(time);
+
+SELECT
+    DATE(time),
+    COUNT(temperature)
+FROM weather
+WHERE temperature < 0
+GROUP BY DAY(time);

@@ -1,3 +1,3 @@
-The coldest day by average temperature is 2023-01-04, with 5.34 temperature.
-The coldest day by total hours under zero is 2023-01-04, with 2 hours.
-The coldest day by continued hours under zero is 2023-01-04, with 2 countinued hours.
+The coldest day by average temperature is 2023-01-07, with 5.41 temperature.
+In the next five days there is not temperature below zero.
+In the next five days there is not temperature below zero.
