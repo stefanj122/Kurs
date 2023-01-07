@@ -52,7 +52,7 @@ export function coldestDay(arr, time) {
   if (hours != 0) {
     return `The coldest day by total hours under zero is ${day}, with ${hours} hours.`;
   } else {
-    return "In the next five days there is not temperature below zero.";
+    return "In the next seven days there is not temperature below zero.";
   }
 }
 
@@ -96,7 +96,7 @@ export function coldestDayByCount(arr, time) {
   if (hours != 0) {
     return `The coldest day by continued hours under zero is ${day}, with ${hours} countinued hours.`;
   } else {
-    return "In the next five days there is not temperature below zero.";
+    return "In the next seven days there is not temperature below zero.";
   }
 }
 
