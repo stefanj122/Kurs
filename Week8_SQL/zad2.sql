@@ -69,3 +69,14 @@ SELECT
 FROM weather
 WHERE temperature < 0
 GROUP BY DAY(time);
+
+DROP TABLE posts;
+
+CREATE TABLE
+    posts (
+        id int(11) unsigned NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        title VARCHAR(255) NOT NULL,
+        content TEXT DEFAULT NULL,
+        created_at DATETIME NOT NULL DEFAULT NOW(),
+        deleted_at DATETIME DEFAULT NULL
+    )

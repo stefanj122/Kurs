@@ -1,6 +1,7 @@
 {
     "type": "module",
     "dependencies": {
+        "axios": "^1.2.2",
         "mysql2": "^2.3.3"
     },
     "devDependencies": {
@@ -8,6 +9,7 @@
     },
     "scripts": {
         "start": "nodemon test.js",
-        "weather": "nodemon zad1.js"
+        "weather": "nodemon zad1.js",
+        "posts": "nodemon zad2.js"
     }
 }

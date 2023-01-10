@@ -1,8 +1,7 @@
 import * as mysql from "mysql2";
 import http from "http";
-import { compareWeather } from "./../Week7_Promise/zad5_weather.js";
+import axios from "axios";
 import {
-  readFromCsv,
   sortDaily,
   coldestAvgDay,
   coldestDay,
@@ -16,27 +15,42 @@ const conn = mysql.createConnection({
   database: "zadaci",
   port: 3306,
 });
-let { time, temperature, snowfall } = readFromCsv();
+// let { time, temperature, snowfall } = await apiWeather();
 const createdb =
   "CREATE TABLE weather (id int(11) not null auto_increment primary key,time datetime unique default null,temperature float(15) null,snowfall varchar(20) null);";
 const dropdb = "DROP TABLE IF EXISTS weather;";
 
-function insertIntoTable() {
-  const { time, temperature, snowfall } = readFromCsv();
+async function apiWeather() {
+  const response = await axios.get(
+    `https://api.open-meteo.com/v1/forecast?latitude=44.76&longitude=19.22&hourly=temperature_2m,snowfall`
+  );
+  const time = response.data.hourly.time;
+  const temperature = response.data.hourly.temperature_2m;
+  const snowfall = response.data.hourly.snowfall.map((el) => {
+    return el !== 0;
+  });
+  return { time, temperature, snowfall };
+}
+
+async function insertIntoTable(time, temperature, snowfall) {
   const timeSql = time.map((time) => {
     return time.replace("T", " ") + ":00";
   });
-  for (let i = 0; i < time.length; i++) {
-    conn.query(
-      "INSERT INTO weather VALUE(NULL,'" +
-        timeSql[i] +
-        "'," +
-        temperature[i] +
-        ",'" +
-        snowfall[i] +
-        "');",
-      (err) => {}
-    );
+  try {
+    for (let i = 0; i < time.length; i++) {
+      conn.query(
+        "INSERT INTO weather VALUE(NULL,'" +
+          timeSql[i] +
+          "'," +
+          temperature[i] +
+          ",'" +
+          snowfall[i] +
+          "');",
+        (err) => {}
+      );
+    }
+  } catch (e) {
+    console.log(e);
   }
 }
 
@@ -70,8 +84,9 @@ http
       });
     } else if (req.url === "/insert") {
       res.writeHead(200, { "Content-Type": "text/html" });
-      insertIntoTable();
-      res.end("<title>Insert into db</title><h1>Table inserted</h1>");
+      insertIntoTable(time, temperature, snowfall).then(() => {
+        res.end("<title>Insert into db</title><h1>Table inserted</h1>");
+      });
     } else if (req.url === "/create") {
       res.writeHead(200, { "Content-Type": "text/html" });
       conn.query(createdb, (err, resut) => {
@@ -81,30 +96,49 @@ http
       });
     } else if (req.url === "/avg") {
       res.writeHead(200, { "Content-Type": "text/html" });
-      res.end(
-        `<title>Zadatak 5</title><h1>${coldestAvgDay(
-          sortDaily(time, temperature),
-          time
-        )}</h1><h1>${coldestDay(
-          sortDaily(time, temperature),
-          time
-        )}</h1><h1>${coldestDayByCount(
-          sortDaily(time, temperature),
-          time
-        )}</h1>`
-      );
+      conn.query("SELECT * FROM weather", (err, result) => {
+        const time = [];
+        const temperature = [];
+        const snowfall = [];
+        result.forEach((el) => {
+          time.push(JSON.stringify(el.time).slice(1, 17));
+          temperature.push(el.temperature);
+          snowfall.push(el.snowfall);
+        });
+        res.end(
+          `<title>Zadatak 5</title><h1>${coldestAvgDay(
+            sortDaily(time, temperature),
+            time
+          )}</h1><h1>${coldestDay(
+            sortDaily(time, temperature),
+            time
+          )}</h1><h1>${coldestDayByCount(
+            sortDaily(time, temperature),
+            time
+          )}</h1>`
+        );
+      });
     } else if (req.url === "/update") {
       res.writeHead(200, { "Content-Type": "text/html" });
-      compareWeather().then((result) => {
-        if (result) {
-          conn.query(dropdb);
-          conn.query(createdb, () => {
-            insertIntoTable();
-            res.end("<title>Update db</title><h1>Table updated</h1>");
-          });
-        } else {
-          res.end("<title>Update db</title><h1>Table not updated</h1>");
-        }
+      conn.query("SELECT * FROM weather;", (err, result) => {
+        apiWeather().then((weather) => {
+          for (let i = 0; i < weather.temperature.length; i++) {
+            if (weather.temperature[i] !== result[i].temperature) {
+              conn.query(dropdb);
+              conn.query(createdb);
+              insertIntoTable(
+                weather.time,
+                weather.temperature,
+                weather.snowfall
+              );
+              res.write("<title>Update db</title><h1>Table updated</h1>");
+              break;
+            } else if (i == weather.temperature.length - 1) {
+              res.write("<title>Update db</title><h1>Table not updated</h1>");
+            }
+          }
+          res.end();
+        });
       });
     } else {
       res.writeHead(200, { "Content-Type": "text/html" });
